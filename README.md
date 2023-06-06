@@ -1,8 +1,13 @@
 # My Website
 Room model created with blender and rendered using Three.js
 
-
-Credits for borrowed blender models: 
+![image](https://github.com/capecod40/personal-website/assets/109251338/4c3172c5-7410-4fbf-9597-975cbd4f5add)
+\
+\
+\
+\
+Credits for borrowed blender models: \
+ <sub><sup>
 "keyboard" (https://skfb.ly/6UFI8) by 45P3R4 is licensed under Creative Commons Attribution (http://creativecommons.org/licenses/by/4.0/).
 "Mouse" (https://skfb.ly/QwKB) by protorenaissance is licensed under Creative Commons Attribution (http://creativecommons.org/licenses/by/4.0/).
 "Low Poly Drawer #4" (https://skfb.ly/6ZKZY) by JustBlender is licensed under Creative Commons Attribution (http://creativecommons.org/licenses/by/4.0/).
@@ -20,3 +25,4 @@ Credits for borrowed blender models:
 "Low Poly Mug" (https://skfb.ly/6X8R8) by LortDigital is licensed under Creative Commons Attribution (http://creativecommons.org/licenses/by/4.0/).
 "Bookshelf: Household Props 12" (https://skfb.ly/6yEBK) by Daniel O'Neil is licensed under Creative Commons Attribution (http://creativecommons.org/licenses/by/4.0/).
 "3D Black Leather Chair" (https://skfb.ly/6TuP9) by Aaditya Bhardwaj is licensed under Creative Commons Attribution (http://creativecommons.org/licenses/by/4.0/).
+</sup></sub>
