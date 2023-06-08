@@ -7,36 +7,65 @@ import CameraAnimation from './Camera.js'
 
 const scene = new THREE.Scene();
 scene.background = new THREE.Color(0xc7dcff);
-const camera = new THREE.PerspectiveCamera( 75, window.innerWidth / window.innerHeight, 0.1, 1000 );
+const camera = new THREE.PerspectiveCamera( 75, document.getElementById("room-canvas").offsetWidth / document.getElementById("room-canvas").offsetHeight, 0.1, 1000 );
 
 const renderer = new THREE.WebGLRenderer({ canvas: document.querySelector(".room-canvas"), antialias: true });
-renderer.setSize( window.innerWidth * 0.9, window.innerHeight * 0.9);
+renderer.setSize( document.getElementById("room-canvas").offsetWidth, document.getElementById("room-canvas").offsetHeight);
 // document.body.appendChild( renderer.domElement );
 
 const controls = new OrbitControls( camera, renderer.domElement );
 const loader = new GLTFLoader();
 
-camera.position.x = -3.48;
-camera.position.y = 1.29;
-camera.position.z = -1.60;
-camera.lookAt(0, 0, 0);
+let home_pos = new THREE.Vector3(-3.48, 1.29, -1.4);
 
-const video = document.getElementById( 'video' );
-const texture = new THREE.VideoTexture( video );
-texture.rotation = Math.PI;
-const videoMaterial = new THREE.MeshBasicMaterial({map: texture, side: THREE.FrontSide});
+let project_animation = new CameraAnimation(scene, camera, 
+	[	home_pos,
+	    new THREE.Vector3(-3, 1.03, -1),
+	    new THREE.Vector3(-1.3, 1.03, -1),
+	    new THREE.Vector3( -1.13, 1.05, -1.8 ) ], 
+		new THREE.Vector3( -1.1, 1.03, -2.2 ),  0.002, 0.002, 0.002, true
+)
 
-let screen_obj;
+let extras_animation = new CameraAnimation(scene, camera, 
+	[	home_pos,
+	    new THREE.Vector3( -1.5, 1.4, 0.4 ) ], 
+		new THREE.Vector3( 0.8, 1, 0.9 ), 0.003, 0.003, 0.003, true
+)
+
+let about_animation = new CameraAnimation(scene, camera, 
+	[	home_pos,
+	    new THREE.Vector3( 1.2, 0.7, -2.2 ) ], 
+		new THREE.Vector3( 1.4, 0.5, -1.4 ), 0.003, 0.003, 0.003, true
+)
+
+camera.position.set(home_pos.x, home_pos.y, home_pos.z);
+camera.lookAt(0, 0.5, -0.15);
+
+// mario video texture
+const mario = document.getElementById( 'mario video' );
+const mario_texture = new THREE.VideoTexture( mario );
+const mario_material = new THREE.MeshBasicMaterial({map: mario_texture, side: THREE.FrontSide, toneMapped: false});
+
+// osu video texture
+const osu = document.getElementById( 'osu video' );
+const osu_texture = new THREE.VideoTexture( osu );
+const osu_material = new THREE.MeshBasicMaterial({map: osu_texture, side: THREE.FrontSide, toneMapped: false});
+
+// formula video texture
+const formula = document.getElementById( 'formula video' );
+const formula_texture = new THREE.VideoTexture( formula );
+const formula_material = new THREE.MeshBasicMaterial({map: formula_texture, side: THREE.FrontSide, toneMapped: false});
+
+const screen_off_material = new THREE.MeshBasicMaterial({color: 0x0});
+
+const screen_geometry = new THREE.BoxGeometry(0.7, 0.39, .0001);
+const screen_mesh = new THREE.Mesh(screen_geometry, screen_off_material);
+screen_mesh.position.set(-1.35499, 1.09544, -2.33416)
+scene.add(screen_mesh);
 
 function setShadow(child) {
 	child.castShadow = true;
 	child.receiveShadow = true;
-	if (child.userData.name == "screen") {
-		// console.log(child);
-		screen_obj = child;
-		console.log(screen_obj);
-		screen_obj.material = videoMaterial;
-	}
 	child.children.forEach((subchild) => {
 		setShadow(subchild);
 	})
@@ -84,37 +113,16 @@ directionalLight.shadow.mapSize.height = 2048;
 const light = new THREE.AmbientLight( 0xffffff , .5);
 scene.add( light );
 
-let home_pos = new THREE.Vector3(-3.48, 1.29, -1.60);
-
-let project_animation = new CameraAnimation(scene, camera, 
-	[	home_pos,
-	    new THREE.Vector3(-3, 1.03, -1),
-	    new THREE.Vector3(-1.3, 1.03, -1),
-	    new THREE.Vector3( -1.13, 1.05, -1.8 ) ], 
-		new THREE.Vector3( -1.1, 1.03, -2.2 ),  0.002, 0.002, 0.002, true
-)
-
-let extras_animation = new CameraAnimation(scene, camera, 
-	[	home_pos,
-	    new THREE.Vector3( -1.5, 1.4, 0.4 ) ], 
-		new THREE.Vector3( 0.8, 1, 0.9 ), 0.003, 0.003, 0.003, true
-)
-
-let about_animation = new CameraAnimation(scene, camera, 
-	[	home_pos,
-	    new THREE.Vector3( 1.2, 0.8, -1.8 ) ], 
-		new THREE.Vector3( 1.6, 0.5, -1.4 ), 0.003, 0.003, 0.003, true
-)
-
 function animate() {
 	requestAnimationFrame( animate );
 
 	// window resizing
-	let aspect = window.innerWidth / window.innerHeight;
-	camera.aspect = aspect;
-	camera.updateProjectionMatrix();
-	renderer.setSize(window.innerWidth * 0.9, window.innerHeight * 0.9);
-	renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+	let aspect = document.getElementById("room-canvas").offsetWidth / document.getElementById("room-canvas").offsetHeight;
+
+	// camera.aspect = aspect;
+	// camera.updateProjectionMatrix();
+	// // renderer.setSize(document.getElementById("room-canvas").offsetWidth, document.getElementById("room-canvas").offsetHeight);
+	// renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
 
 	// if (extras_animation.home) {
 		// extras_animation.enter();
@@ -122,10 +130,11 @@ function animate() {
 	// 	extras_animation.exit();
 	// }
 
-	if (project_animation.home) {
-		project_animation.enter();}
+	// if (project_animation.home) {
+	// 	project_animation.enter();
 	// } else {
 	// 	project_animation.exit();
+	// 	// screen_mesh.material = mario_material;
 	// }
 
 	// if (about_animation.home) {
