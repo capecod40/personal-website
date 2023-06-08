@@ -4,6 +4,7 @@ import { OrbitControls } from 'three/addons/controls/OrbitControls.js';
 import { GLTFLoader } from 'three/addons/loaders/GLTFLoader.js';
 
 import CameraAnimation from './Camera.js'
+import Video from './Video.js'
 
 const scene = new THREE.Scene();
 scene.background = new THREE.Color(0xc7dcff);
@@ -29,7 +30,7 @@ let project_animation = new CameraAnimation(scene, camera,
 let extras_animation = new CameraAnimation(scene, camera, 
 	[	home_pos,
 	    new THREE.Vector3( -1.5, 1.4, 0.4 ) ], 
-		new THREE.Vector3( 0.8, 1, 0.9 ), 0.003, 0.003, 0.003, true
+		new THREE.Vector3( 0.8, 1, 0.9 ), 0.005, 0.005, 0.003, true
 )
 
 let about_animation = new CameraAnimation(scene, camera, 
@@ -41,31 +42,47 @@ let about_animation = new CameraAnimation(scene, camera,
 camera.position.set(home_pos.x, home_pos.y, home_pos.z);
 camera.lookAt(0, 0.5, -0.15);
 
-// mario video texture
-const mario = document.getElementById( 'mario video' );
-const mario_texture = new THREE.VideoTexture( mario );
-const mario_material = new THREE.MeshBasicMaterial({map: mario_texture, side: THREE.FrontSide, toneMapped: false});
+// // mario video texture
+// const mario = document.getElementById( "mario video" );
+// const mario_texture = new THREE.VideoTexture( mario );
+// const mario_material = new THREE.MeshBasicMaterial({map: mario_texture, side: THREE.FrontSide, toneMapped: false});
 
-// osu video texture
-const osu = document.getElementById( 'osu video' );
-const osu_texture = new THREE.VideoTexture( osu );
-const osu_material = new THREE.MeshBasicMaterial({map: osu_texture, side: THREE.FrontSide, toneMapped: false});
+// // osu video texture
+// const osu = document.getElementById( "osu video" );
+// const osu_texture = new THREE.VideoTexture( osu );
+// const osu_material = new THREE.MeshBasicMaterial({map: osu_texture, side: THREE.FrontSide, toneMapped: false});
 
-// formula video texture
-const formula = document.getElementById( 'formula video' );
-const formula_texture = new THREE.VideoTexture( formula );
-const formula_material = new THREE.MeshBasicMaterial({map: formula_texture, side: THREE.FrontSide, toneMapped: false});
+// // formula video texture
+// const formula = document.getElementById( "formula video" );
+// const formula_texture = new THREE.VideoTexture( formula );
+// const formula_material = new THREE.MeshBasicMaterial({map: formula_texture, side: THREE.DoubleSide, toneMapped: false});
 
-const screen_off_material = new THREE.MeshBasicMaterial({color: 0x0});
+// // vintage video texture
+// const vintage = document.getElementById( "vintage video" );
+// const vintage_texture = new THREE.VideoTexture( vintage );
+// const vintage_material = new THREE.MeshBasicMaterial({map: vintage_texture, side: THREE.FrontSide, toneMapped: false});
+
+// // helmet video texture
+// const helmet = document.getElementById( "helmet video" );
+// const helmet_texture = new THREE.VideoTexture( helmet );
+// const helmet_material = new THREE.MeshBasicMaterial({map: helmet_texture, side: THREE.FrontSide, toneMapped: false});
+
+// helmet_texture.wrapS = THREE.MirroredRepeatWrapping;
+// helmet_texture.offset = new THREE.Vector2(0, 0.2);
+
+// const screen_off_material = new THREE.MeshBasicMaterial({color: 0x0});
 
 const screen_geometry = new THREE.BoxGeometry(0.7, 0.39, .0001);
-const screen_mesh = new THREE.Mesh(screen_geometry, formula_material);
+const screen_mesh = new THREE.Mesh(screen_geometry, Video.screen_off_material);
 screen_mesh.position.set(-1.35499, 1.09544, -2.33416)
 scene.add(screen_mesh);
 
 function setShadow(child) {
 	child.castShadow = true;
 	child.receiveShadow = true;
+	if (child.userData.name == "shield") {
+		child.material = Video.helmet_material;
+	}
 	child.children.forEach((subchild) => {
 		setShadow(subchild);
 	})
@@ -98,7 +115,6 @@ directionalLight.position.x = -1;
 directionalLight.position.y = 4;
 directionalLight.position.z = -1;
 
-
 directionalLight.shadow.bias = -0.0001;
 directionalLight.shadow.mapSize.width = 2048;
 directionalLight.shadow.mapSize.height = 2048;
@@ -113,6 +129,8 @@ directionalLight.shadow.mapSize.height = 2048;
 const light = new THREE.AmbientLight( 0xffffff , .5);
 scene.add( light );
 
+
+
 function animate() {
 	requestAnimationFrame( animate );
 
@@ -125,7 +143,7 @@ function animate() {
 	// renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
 
 	// if (extras_animation.home) {
-	// 	extras_animation.enter();
+	// 	extras_animation.enter();}
 	// } else {
 	// 	extras_animation.exit();
 	// }
