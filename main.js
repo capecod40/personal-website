@@ -151,3 +151,4 @@ function animate() {
 }
 
 animate();
+animate();
