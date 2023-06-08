@@ -125,7 +125,7 @@ function animate() {
 	// renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
 
 	// if (extras_animation.home) {
-		// extras_animation.enter();
+	// 	extras_animation.enter();
 	// } else {
 	// 	extras_animation.exit();
 	// }
@@ -150,5 +150,4 @@ function animate() {
 	renderer.render( scene, camera );
 }
 
-animate();
 animate();
