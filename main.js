@@ -59,7 +59,7 @@ const formula_material = new THREE.MeshBasicMaterial({map: formula_texture, side
 const screen_off_material = new THREE.MeshBasicMaterial({color: 0x0});
 
 const screen_geometry = new THREE.BoxGeometry(0.7, 0.39, .0001);
-const screen_mesh = new THREE.Mesh(screen_geometry, screen_off_material);
+const screen_mesh = new THREE.Mesh(screen_geometry, formula_material);
 screen_mesh.position.set(-1.35499, 1.09544, -2.33416)
 scene.add(screen_mesh);
 
