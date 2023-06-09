@@ -3,20 +3,21 @@ import * as THREE from 'three';
 import { OrbitControls } from 'three/addons/controls/OrbitControls.js';
 import { GLTFLoader } from 'three/addons/loaders/GLTFLoader.js';
 
-import CameraAnimation from './Camera.js'
-import Video from './Video.js'
+import CameraAnimation from './Camera.js';
+import Video from './Video.js';
 
 const scene = new THREE.Scene();
 scene.background = new THREE.Color(0xc7dcff);
-const camera = new THREE.PerspectiveCamera( 75, document.getElementById("room-canvas").offsetWidth / document.getElementById("room-canvas").offsetHeight, 0.1, 1000 );
+const camera = new THREE.PerspectiveCamera( 75, document.getElementById("render-canvas").offsetWidth / document.getElementById("render-canvas").offsetHeight, 0.1, 1000 );
 
-const renderer = new THREE.WebGLRenderer({ canvas: document.querySelector(".room-canvas"), antialias: true });
-renderer.setSize( document.getElementById("room-canvas").offsetWidth, document.getElementById("room-canvas").offsetHeight);
+const renderer = new THREE.WebGLRenderer({ canvas: document.getElementById("render-canvas"), antialias: true });
+renderer.setSize( document.getElementById("render-canvas").offsetWidth, document.getElementById("render-canvas").offsetHeight);
 // document.body.appendChild( renderer.domElement );
 
 const controls = new OrbitControls( camera, renderer.domElement );
 const loader = new GLTFLoader();
 
+// animations
 let home_pos = new THREE.Vector3(-3.48, 1.29, -1.4);
 
 let project_animation = new CameraAnimation(scene, camera, 
@@ -42,50 +43,26 @@ let about_animation = new CameraAnimation(scene, camera,
 camera.position.set(home_pos.x, home_pos.y, home_pos.z);
 camera.lookAt(0, 0.5, -0.15);
 
-// // mario video texture
-// const mario = document.getElementById( "mario video" );
-// const mario_texture = new THREE.VideoTexture( mario );
-// const mario_material = new THREE.MeshBasicMaterial({map: mario_texture, side: THREE.FrontSide, toneMapped: false});
-
-// // osu video texture
-// const osu = document.getElementById( "osu video" );
-// const osu_texture = new THREE.VideoTexture( osu );
-// const osu_material = new THREE.MeshBasicMaterial({map: osu_texture, side: THREE.FrontSide, toneMapped: false});
-
-// // formula video texture
-// const formula = document.getElementById( "formula video" );
-// const formula_texture = new THREE.VideoTexture( formula );
-// const formula_material = new THREE.MeshBasicMaterial({map: formula_texture, side: THREE.DoubleSide, toneMapped: false});
-
-// // vintage video texture
-// const vintage = document.getElementById( "vintage video" );
-// const vintage_texture = new THREE.VideoTexture( vintage );
-// const vintage_material = new THREE.MeshBasicMaterial({map: vintage_texture, side: THREE.FrontSide, toneMapped: false});
-
-// // helmet video texture
-// const helmet = document.getElementById( "helmet video" );
-// const helmet_texture = new THREE.VideoTexture( helmet );
-// const helmet_material = new THREE.MeshBasicMaterial({map: helmet_texture, side: THREE.FrontSide, toneMapped: false});
-
-// helmet_texture.wrapS = THREE.MirroredRepeatWrapping;
-// helmet_texture.offset = new THREE.Vector2(0, 0.2);
-
-// const screen_off_material = new THREE.MeshBasicMaterial({color: 0x0});
-
+// videos
 const screen_geometry = new THREE.BoxGeometry(0.7, 0.39, .0001);
 const screen_mesh = new THREE.Mesh(screen_geometry, Video.screen_off_material);
 screen_mesh.position.set(-1.35499, 1.09544, -2.33416)
 scene.add(screen_mesh);
 
+let helmet;
 function setShadow(child) {
 	child.castShadow = true;
 	child.receiveShadow = true;
 	if (child.userData.name == "shield") {
-		child.material = Video.helmet_material;
+		helmet = child;
 	}
 	child.children.forEach((subchild) => {
 		setShadow(subchild);
 	})
+}
+
+function animateHelmet() {
+	helmet.material = Video.helmet_material;
 }
 
 //load gltf
@@ -103,11 +80,10 @@ loader.load( 'blender/room.gltf', function ( gltf ) {
 
 } );
 
-
+// lighting
 renderer.shadowMap.enabled = true;
 renderer.shadowMap.type = THREE.PCFSoftShadowMap; // default THREE.PCFShadowMap
 
-// lighting
 const directionalLight = new THREE.DirectionalLight( 0xffffff, 1 );
 directionalLight.castShadow = true;
 scene.add( directionalLight );
@@ -129,23 +105,23 @@ directionalLight.shadow.mapSize.height = 2048;
 const light = new THREE.AmbientLight( 0xffffff , .5);
 scene.add( light );
 
-
+// window resizing
+window.addEventListener("resize", function (){
+	let aspect = window.innerWidth/ window.innerHeight;
+	camera.aspect = aspect;
+	camera.updateProjectionMatrix();
+	renderer.setSize(window.innerWidth, window.innerHeight);
+	renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+})
 
 function animate() {
 	requestAnimationFrame( animate );
 
-	// window resizing
-	let aspect = document.getElementById("room-canvas").offsetWidth / document.getElementById("room-canvas").offsetHeight;
-
-	// camera.aspect = aspect;
-	// camera.updateProjectionMatrix();
-	// // renderer.setSize(document.getElementById("room-canvas").offsetWidth, document.getElementById("room-canvas").offsetHeight);
-	// renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
-
 	// if (extras_animation.home) {
-	// 	extras_animation.enter();}
+	// 	extras_animation.enter();
 	// } else {
 	// 	extras_animation.exit();
+	// 	animateHelmet();
 	// }
 
 	// if (project_animation.home) {
