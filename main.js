@@ -25,19 +25,19 @@ let project_animation = new CameraAnimation(scene, camera,
 	    new THREE.Vector3(-3, 1.03, -1),
 	    new THREE.Vector3(-1.3, 1.03, -1),
 	    new THREE.Vector3( -1.13, 1.05, -1.8 ) ], 
-		new THREE.Vector3( -1.1, 1.03, -2.2 ),  0.002, 0.002, 0.002, true
+		new THREE.Vector3( -1.1, 1.03, -2.2 ),  0.002, 0.002, 0.002, false
 )
 
 let extras_animation = new CameraAnimation(scene, camera, 
 	[	home_pos,
 	    new THREE.Vector3( -1.5, 1.4, 0.4 ) ], 
-		new THREE.Vector3( 0.8, 1, 0.9 ), 0.005, 0.005, 0.003, true
+		new THREE.Vector3( 0.8, 1, 0.9 ), 0.005, 0.005, 0.003, false
 )
 
 let about_animation = new CameraAnimation(scene, camera, 
 	[	home_pos,
 	    new THREE.Vector3( 1.2, 0.7, -2.2 ) ], 
-		new THREE.Vector3( 1.4, 0.5, -1.4 ), 0.003, 0.003, 0.003, true
+		new THREE.Vector3( 1.4, 0.5, -1.4 ), 0.003, 0.003, 0.003, false
 )
 
 camera.position.set(home_pos.x, home_pos.y, home_pos.z);
@@ -114,28 +114,69 @@ window.addEventListener("resize", function (){
 	renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
 })
 
+// buttons
+let project_click = false;
+function projects() {
+	project_click = true;
+}
+let about_click = false;
+function about() {
+	about_click = true;
+}
+let extras_click = false;
+function extras() {
+	extras_click = true;
+}
+let home_click = false;
+function home() {
+	home_click = true;
+}
+
+window.projects = projects;
+window.about = about;
+window.extras = extras;
+window.home = home;
+
 function animate() {
 	requestAnimationFrame( animate );
 
-	// if (extras_animation.home) {
-	// 	extras_animation.enter();
-	// } else {
-	// 	extras_animation.exit();
-	// 	animateHelmet();
-	// }
+	console.log(project_click, about_click, extras_click, home_click);
 
-	// if (project_animation.home) {
-	// 	project_animation.enter();
-	// } else {
-	// 	project_animation.exit();
-	// 	// screen_mesh.material = mario_material;
-	// }
+	if (project_click) {
+		if (project_animation.home) {
+			project_animation.enter();
+		} else {
+			project_click = false;
+		}
+	}
 
-	// if (about_animation.home) {
-	// 	about_animation.enter();
-	// } else {
-	// 	about_animation.exit();
-	// }
+	if (about_click) {
+		if (about_animation.home) {
+			about_animation.enter();
+		} else {
+			about_click = false;
+		}
+	}
+
+	if (extras_click) {
+		if (extras_animation.home) {
+			extras_animation.enter();
+		} else {
+			extras_click = false;
+		}
+	}
+
+	if (home_click) {
+		if (!project_animation.home) {
+			project_animation.exit();
+		} else if (!about_animation.home) {
+			about_animation.exit();
+		} else if (!extras_animation.home) {
+			extras_animation.exit();
+		} else {
+			home_click = false;
+		}
+	}
 
 	// console.log(pos);
 	// console.log(camera.position);
