@@ -140,8 +140,6 @@ window.home = home;
 function animate() {
 	requestAnimationFrame( animate );
 
-	console.log(project_click, about_click, extras_click, home_click);
-
 	if (project_click) {
 		if (project_animation.home) {
 			project_animation.enter();
