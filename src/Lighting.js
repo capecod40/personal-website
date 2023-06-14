@@ -1,7 +1,7 @@
 import * as THREE from 'three';
 
 export default class Lighting {
-    constructor(renderer) {
+    constructor(renderer, scene) {
         this.renderer = renderer;
         
         renderer.shadowMap.enabled = true;
@@ -25,6 +25,9 @@ export default class Lighting {
         // this.directionalLight.shadow.camera.bottom = -100;
         
         this.ambientLight = new THREE.AmbientLight( 0xffffff , .5);
+
+        scene.add(this.ambientLight);
+        scene.add(this.directionalLight);
     }
 }
 

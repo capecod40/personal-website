@@ -1,6 +1,6 @@
 import * as THREE from 'three'
 
-export default class CameraAnimation {
+export default class Animations {
 
     static inAnimation = false;
     static exit = false;
@@ -8,28 +8,81 @@ export default class CameraAnimation {
     static immediateEnter = -1;
     static animations = [];
 
-    static initialize(scene, camera, home_pos) {
+    static projects;
+    static extras;
+    static about;
+    static curr;
+
+    static initialize(scene, camera, home_pos, document, window) {
         // 0: projects
         // 1: extras
         // 2: about
 
-        this.animations[0] = new CameraAnimation(scene, camera, 
+        this.animations[0] = new Animations(scene, camera, 
             [	home_pos,
                 new THREE.Vector3( -1.13, 1.05, -1.8 ) ], 
                 new THREE.Vector3( -1.1, 1.03, -2.2 ),  0.01, 0.01, 0.01, false
         )
 
-        this.animations[1] = new CameraAnimation(scene, camera, 
+        this.animations[1] = new Animations(scene, camera, 
             [	home_pos,
                 new THREE.Vector3( -1.5, 1.4, 0.4 ) ], 
                 new THREE.Vector3( 0.8, 1, 0.9 ), 0.015, 0.015, 0.015, false
         )
 
-        this.animations[2] = new CameraAnimation(scene, camera, 
+        this.animations[2] = new Animations(scene, camera, 
             [	home_pos,
                 new THREE.Vector3( 1.2, 0.7, -2.2 ) ], 
                 new THREE.Vector3( 1.4, 0.5, -1.4 ), 0.01, 0.01, 0.01, false
         )
+
+        Animations.projects = document.getElementById("projects");
+        Animations.extras = document.getElementById("extras");
+        Animations.about = document.getElementById("about");
+
+        this.window = window;
+        window.onClick = this.onClick;
+    }
+
+    static onClick(index) {
+        if (index == Animations.state)
+            return;
+    
+        Animations.inAnimation = true;
+        
+        if (index == -1) {
+            Animations.exit = true;
+        } else if (Animations.state != -1) {
+            Animations.immediateEnter = index;
+            Animations.exit = true;
+        } else {
+            Animations.state = index;
+        }
+    }
+
+    static animate() {
+        if (Animations.inAnimation) {
+            if (Animations.exit == true) {
+                Animations.animations[Animations.state].exit();
+                Animations.curr.style.display = "none";
+            } else {
+                Animations.animations[Animations.state].enter();
+                switch (Animations.state) {
+                    case 0:
+                        Animations.projects.style.display = "block";
+                        Animations.curr = Animations.projects;
+                        break;
+                    case 1:
+                        Animations.extras.style.display = "block";
+                        Animations.curr = Animations.extras;
+                        break;
+                    case 2:
+                        Animations.about.style.display = "block";
+                        Animations.curr = Animations.about;
+                        break;
+                }
+            }
+        }
     }
 
     constructor(scene, camera, cam_points, lookat_point, cam_speed, lookat_speed, return_speed, debug = true) {
@@ -97,8 +150,8 @@ export default class CameraAnimation {
         this.camera.lookAt(pos);
 
         if (this.cam_progress == 1 && this.lookat_progress == 1) {
-            CameraAnimation.inAnimation = false;
-            CameraAnimation.immediateEnter = -1;
+            Animations.inAnimation = false;
+            Animations.immediateEnter = -1;
         }
     }
 
@@ -122,15 +175,13 @@ export default class CameraAnimation {
         this.camera.lookAt(pos);
 
         if (this.cam_progress == 0 && this.lookat_progress == 0) {
-            if (CameraAnimation.immediateEnter != -1) {
-                CameraAnimation.state = CameraAnimation.immediateEnter;
+            if (Animations.immediateEnter != -1) {
+                Animations.state = Animations.immediateEnter;
             } else {
-                CameraAnimation.inAnimation = false;
-                CameraAnimation.state = -1;
+                Animations.inAnimation = false;
+                Animations.state = -1;
             }
-            CameraAnimation.exit = false;
+            Animations.exit = false;
         }
     }
-
-
 }

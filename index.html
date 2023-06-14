@@ -3,65 +3,7 @@
 	<head>
 		<meta charset="utf-8">
 		<title>Tony's Room</title>
-		<style>
-			html, body { 
-				margin: 0; 
-				padding: 0;
-				width: 100%;
-				height: 100%;
-				/* overflow:hidden; */
-			}
-
-			.render-canvas {
-				display: flex;
-				z-index: 0;
-				width: 100%;
-				height: 100%;
-				/* border: 4px solid yellow; */
-			}
-
-			.buttons {
-				z-index: 1;
-				position: absolute;
-				top: 7%;
-				/* border: 4px solid red; */
-				left: 0;
-				right: 0;
-				text-align: center;
-			}
-
-			.button {
-				/* display: flex; */
-				justify-content: center;
-			}
-
-			.text-right {
-				z-index: 1;
-				position: absolute;
-				right: 5%;
-				top: 20%;
-				border: 4px solid red;
-				background-color: white;
-				text-align: center;
-				height: 60%;
-				width: 30%;
-				border-radius: 50px;
-			}
-
-			.text-left {
-				z-index: 1;
-				position: absolute;
-				left: 5%;
-				top: 20%;
-				border: 4px solid red;
-				background-color: white;
-				text-align: center;
-				height: 60%;
-				width: 30%;
-				border-radius: 50px;
-			}
-		</style>
-
+		<link rel="stylesheet" href="./styles.css">
         <script async src="https://unpkg.com/es-module-shims@1.6.3/dist/es-module-shims.js"></script>
 
         <script type="importmap">
@@ -72,7 +14,7 @@
             }
           }
         </script>
-		<script type="module" src="./main.js"></script>
+		<script type="module" src="./Main.js"></script>
 	</head>
 
 	<video id="mario video" style="display: none">
@@ -103,17 +45,19 @@
 			<button class="button" onclick="onClick(2)">About</button>
 		</div>
 
-		<div class="text-right" style="display: none;">
-			<p>Text here</p>
+		<div class="text-right" id="extras" style="display: none;">
+			<p>extras</p>
 		</div>
 
-		<div class="text-left" style="display: none;">
-			<p>Text here</p>
+		<div class="text-left" id="projects" style="display: none;">
+			<p>projects</p>
+		</div>
+
+		<div class="text-left" id="about" style="display: none;">
+			<p>about</p>
 		</div>
 
 		<canvas class="render-canvas" id="render-canvas"></canvas>
-
-
 
 	</body>
 </html>
