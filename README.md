@@ -2,7 +2,8 @@
 Work in progress\
 Room model created with blender and rendered using Three.js
 
-Preview: https://capecod40.github.io/personal-website/
+Preview: https://capecod40.github.io/personal-website/ \
+Currently works on Chrome and Firefox
 
 ![image](https://github.com/capecod40/personal-website/assets/109251338/4c3172c5-7410-4fbf-9597-975cbd4f5add)
 \
