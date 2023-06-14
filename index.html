@@ -34,6 +34,32 @@
 				/* display: flex; */
 				justify-content: center;
 			}
+
+			.text-right {
+				z-index: 1;
+				position: absolute;
+				right: 5%;
+				top: 20%;
+				border: 4px solid red;
+				background-color: white;
+				text-align: center;
+				height: 60%;
+				width: 30%;
+				border-radius: 50px;
+			}
+
+			.text-left {
+				z-index: 1;
+				position: absolute;
+				left: 5%;
+				top: 20%;
+				border: 4px solid red;
+				background-color: white;
+				text-align: center;
+				height: 60%;
+				width: 30%;
+				border-radius: 50px;
+			}
 		</style>
 
         <script async src="https://unpkg.com/es-module-shims@1.6.3/dist/es-module-shims.js"></script>
@@ -71,12 +97,20 @@
 
 	<body>
 		<div class="buttons">
-			<button class="button" onclick="home()">Home</button>
-			<button class="button" onclick="projects()">Projects</button>
-			<button class="button" onclick="extras()">Extras</button>
-			<button class="button" onclick="about()">About</button>
-
+			<button class="button" onclick="onClick(-1)">Home</button>
+			<button class="button" onclick="onClick(0)">Projects</button>
+			<button class="button" onclick="onClick(1)">Extras</button>
+			<button class="button" onclick="onClick(2)">About</button>
 		</div>
+
+		<div class="text-right" style="display: none;">
+			<p>Text here</p>
+		</div>
+
+		<div class="text-left" style="display: none;">
+			<p>Text here</p>
+		</div>
+
 		<canvas class="render-canvas" id="render-canvas"></canvas>
 
 
