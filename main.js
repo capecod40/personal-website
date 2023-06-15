@@ -19,11 +19,11 @@ const loader = new GLTFLoader();
 // lighting
 const lighting = new Lighting(renderer, scene);
 
-// animations & buttons
-Animations.initialize(scene, view.camera, home_pos, document, window);
-
 // models & textures
 const models = new Models(scene, loader);
+
+// animations & buttons
+Animations.initialize(scene, view.camera, home_pos, document, window, models);
 
 function animate() {
 	requestAnimationFrame( animate );

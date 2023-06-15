@@ -37,18 +37,11 @@ html, body {
     border: 4px solid red;
     background-color: white;
     text-align: center;
-    height: 60%;
+    height: 0%;
     width: 30%;
     border-radius: 50px;
-}
-
-#projects {
-    height: 0%;
-}
-
-#projects:active {
-    transition: height 2s;
-    height: 60%;
+    transition: height 0.55s;
+    opacity: 0;
 }
 
 .text-left {
@@ -59,7 +52,13 @@ html, body {
     border: 4px solid red;
     background-color: white;
     text-align: center;
-    height: 60%;
+    height: 0%;
     width: 30%;
     border-radius: 50px;
+    transition: height 0.55s;
+    opacity: 0;
+}
+
+.text {
+    transition: opacity 0.1s;
 }
