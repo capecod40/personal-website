@@ -42,6 +42,15 @@ html, body {
     border-radius: 50px;
 }
 
+#projects {
+    height: 0%;
+}
+
+#projects:active {
+    transition: height 2s;
+    height: 60%;
+}
+
 .text-left {
     z-index: 1;
     position: absolute;

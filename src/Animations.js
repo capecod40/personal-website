@@ -64,20 +64,20 @@ export default class Animations {
         if (Animations.inAnimation) {
             if (Animations.exit == true) {
                 Animations.animations[Animations.state].exit();
-                Animations.curr.style.display = "none";
+                // Animations.curr.style.display = "none";
             } else {
                 Animations.animations[Animations.state].enter();
                 switch (Animations.state) {
                     case 0:
-                        Animations.projects.style.display = "block";
+                        // Animations.projects.style.display = "block";
                         Animations.curr = Animations.projects;
                         break;
                     case 1:
-                        Animations.extras.style.display = "block";
+                        // Animations.extras.style.display = "block";
                         Animations.curr = Animations.extras;
                         break;
                     case 2:
-                        Animations.about.style.display = "block";
+                        // Animations.about.style.display = "block";
                         Animations.curr = Animations.about;
                         break;
                 }
@@ -152,6 +152,8 @@ export default class Animations {
         if (this.cam_progress == 1 && this.lookat_progress == 1) {
             Animations.inAnimation = false;
             Animations.immediateEnter = -1;
+            Animations.projects.classList.toggle("active");
+            console.log(Animations.projects);
         }
     }
 
