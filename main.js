@@ -29,8 +29,6 @@ window.addEventListener('resize', function(){
     document.body.style.zIndex = '1';
 }, false);
 
-Animations.onClick(0);
-
 function animate() {
 	requestAnimationFrame( animate );
 
