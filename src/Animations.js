@@ -1,5 +1,5 @@
 import * as THREE from 'three'
-import Models from './Models';
+import Models from './Models.js';
 
 export default class Animations {
 
