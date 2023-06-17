@@ -59,6 +59,7 @@ export default class Animations {
 
     static onExit() {
         Animations.curr.style.height = "0%";
+        Animations.curr.style.zIndex = "1";
         Animations.curr.children[0].style.opacity = "0";
     }
 
@@ -139,6 +140,7 @@ export default class Animations {
 
     doneEnter() {
         Animations.inAnimation = false;
+        Animations.curr.style.zIndex = "2";
         Animations.curr.children[0].style.opacity = "1";
     }
 

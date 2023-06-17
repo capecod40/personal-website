@@ -1,10 +1,11 @@
 import * as THREE from 'three';
+import PlayPause from './PlayPause';
 
 export default class Models {
     static shield;
     static sheild_off_mat;
 
-    constructor(scene, loader) {
+    constructor(scene, loader, window) {
         // mario video texture
         let mario = document.getElementById( "mario video" );
         let mario_texture = new THREE.VideoTexture( mario );
@@ -48,15 +49,20 @@ export default class Models {
 
         let screen_geometry = new THREE.BoxGeometry(0.7, 0.39, .0001);
         let screen_mesh = new THREE.Mesh(screen_geometry, screen_off_material);
-        screen_mesh.position.set(-1.35499, 1.09544, -2.33416)
+        screen_mesh.position.set(-1.35499, 1.09544, -2.33416);
+        this.screen_mesh = screen_mesh;
         scene.add(screen_mesh);
+
+        PlayPause.initialize(0, osu_material, screen_mesh, this.osu_element);
+        PlayPause.initialize(1, mario_material, screen_mesh, this.mario_element);
+        window.playPause = PlayPause.toggle;
+        window.stop = PlayPause.stop;
         
         function setShadow(child) {
             child.castShadow = true;
             child.receiveShadow = true;
             if (child.userData.name == "shield") {
                 Models.sheild_off_mat = child.material;
-                console.log(child);
                 Models.shield = child;
             }
             child.children.forEach((subchild) => {

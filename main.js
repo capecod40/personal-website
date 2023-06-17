@@ -20,10 +20,18 @@ const loader = new GLTFLoader();
 const lighting = new Lighting(renderer, scene);
 
 // models & textures
-const models = new Models(scene, loader);
+const models = new Models(scene, loader, window);
+console.log(window.playOsu);
+
 
 // animations & buttons
 Animations.initialize(scene, view.camera, home_pos, document, window, models);
+
+window.addEventListener('resize', function(){
+    document.body.style.zIndex = '1';
+}, false);
+
+Animations.onClick(0);
 
 function animate() {
 	requestAnimationFrame( animate );
