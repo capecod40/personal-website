@@ -1,5 +1,5 @@
 import * as THREE from 'three';
-import PlayPause from './PlayPause';
+import PlayPause from './PlayPause.js';
 
 export default class Models {
     static shield;
