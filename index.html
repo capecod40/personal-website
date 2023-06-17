@@ -43,10 +43,10 @@
 
 	<body>
 		<div class="buttons">
-			<button class="button" onclick="onClick(-1)">Home</button>
-			<button class="button" onclick="onClick(0)">Projects</button>
-			<button class="button" onclick="onClick(1)">Extras</button>
-			<button class="button" onclick="onClick(2)">About</button>
+			<button class="button" id="home-button" onclick="onClick(-1)">Home</button>
+			<button class="button" id="projects-button" onclick="onClick(0)">Projects</button>
+			<button class="button" id="extras-button" onclick="onClick(1)">Extras</button>
+			<button class="button" id="about-button" onclick="onClick(2)">About</button>
 		</div>
 
 		<div class="text-right" id="projects">
@@ -56,18 +56,18 @@
 				●	Developed using Three.js JavaScript library for graphics rendering in a web browser<br>
 				●	Work in progress – interactive preview available<br>
 				<br>
-				<button class="play-button" onclick="playPause(0)"><img src="assets/play.png" style="width: 100%"></button>
+				<button class="media-button" onclick="playPause(0)"><img id="osu-button" src="assets/play.png" class="media-button-image"></button>
 				<a href="https://github.com/capecod40/osu">2D Video Game: C++</a> May 2022 - August 2022<br>
 				●	Created from scratch using modern OpenGL: no assistance from game engines or extensive graphic rendering libraries<br>
-				<button class="stop-button" onclick="stop(0)"><img src="assets/stop.png" style="width: 100%"></button>
+				<button class="media-button" onclick="stop(0)"><img src="assets/stop.png" class="media-button-image"></button>
 				●	Designed with low coupling between graphic rendering pipeline and game design interface: new maps and levels in the game can be created without knowledge of the graphic rendering process<br>
 				●	Created modular data structures to handle entire graphic rendering pipeline and customized shaders using OpenGL Shading Language (GLSL)<br>
 				●	Developed using Visual Studio with lightweight tools, including GLAD OpenGL loading library, GLFW for window creation, and GLM math library<br>
 				<br>
-				<button class="play-button" onclick="playPause(1)"><img src="assets/play.png" style="width: 100%"></button>
+				<button class="media-button" onclick="playPause(1)"><img id="mario-button" src="assets/play.png" class="media-button-image"></button>
 				<a href="https://github.com/J0ELh/2DPlatformer">Mario Bros. Group Project: Unity</a> May 2023<br>
 				●	Classic single-player platformer with an interactable environment, simple enemy logic, and score tracking<br>
-				<button class="stop-button" onclick="stop(1)"><img src="assets/stop.png" style="width: 100%"></button>
+				<button class="media-button" onclick="stop(1)"><img src="assets/stop.png" class="media-button-image"></button>
 				●	Created C# scripts for all sprite and character animations, game logic, and scene management<br>
 				●	Replicated level design and animations from the original NES platformer<br>
 				●	Work in progress – developed using Unity<br>

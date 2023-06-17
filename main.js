@@ -19,7 +19,7 @@ const loader = new GLTFLoader();
 // lighting
 const lighting = new Lighting(renderer, scene);
 
-// models & textures
+// models & textures - includes play pause buttons
 const models = new Models(scene, loader, window);
 
 // animations & buttons
