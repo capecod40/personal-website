@@ -21,8 +21,6 @@ const lighting = new Lighting(renderer, scene);
 
 // models & textures
 const models = new Models(scene, loader, window);
-console.log(window.playOsu);
-
 
 // animations & buttons
 Animations.initialize(scene, view.camera, home_pos, document, window, models);
