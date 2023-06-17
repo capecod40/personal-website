@@ -1,47 +1,68 @@
 import * as THREE from 'three'
+import Models from './Models';
 
 export default class Animations {
 
+    static window;
     static inAnimation = false;
     static exit = false;
     static state = -1;
     static immediateEnter = -1;
     static animations = [];
 
-    static projects;
-    static extras;
-    static about;
     static curr;
 
-    static initialize(scene, camera, home_pos, document, window) {
+    static initialize(scene, camera, home_pos, document, window, models) {
         // 0: projects
         // 1: extras
         // 2: about
 
-        this.animations[0] = new Animations(scene, camera, 
+        Animations.models = models;
+
+        Animations.animations[0] = new Animations(scene, camera, 
             [	home_pos,
                 new THREE.Vector3( -1.13, 1.05, -1.8 ) ], 
-                new THREE.Vector3( -1.1, 1.03, -2.2 ),  0.01, 0.01, 0.01, false
+                new THREE.Vector3( -1.1, 1.03, -2.2 ),  0.01, 0.01, 0.01, false, 
+                document.getElementById("projects"), document.getElementById("projects-button")
         )
 
-        this.animations[1] = new Animations(scene, camera, 
+        Animations.animations[1] = new Animations(scene, camera, 
             [	home_pos,
                 new THREE.Vector3( -1.5, 1.4, 0.4 ) ], 
-                new THREE.Vector3( 0.8, 1, 0.9 ), 0.015, 0.015, 0.015, false
+                new THREE.Vector3( 0.8, 1, 0.9 ), 0.015, 0.015, 0.015, false, 
+                document.getElementById("extras"), document.getElementById("extras-button")
         )
 
-        this.animations[2] = new Animations(scene, camera, 
+        Animations.animations[2] = new Animations(scene, camera, 
             [	home_pos,
                 new THREE.Vector3( 1.2, 0.7, -2.2 ) ], 
-                new THREE.Vector3( 1.4, 0.5, -1.4 ), 0.01, 0.01, 0.01, false
+                new THREE.Vector3( 1.4, 0.5, -1.4 ), 0.01, 0.01, 0.01, false, 
+                document.getElementById("about"), document.getElementById("about-button")
         )
 
-        Animations.projects = document.getElementById("projects");
-        Animations.extras = document.getElementById("extras");
-        Animations.about = document.getElementById("about");
+        Animations.curr = Animations.animations[3] = document.getElementById("home-button");
 
-        this.window = window;
+        Animations.window = window;
         window.onClick = this.onClick;
+    }
+
+    static onEnter() {
+        if (Animations.state == 1) { // video texture for helmet
+            Models.shield.material = Animations.models.helmet_material;
+            Animations.models.helmet_element.play();
+            Animations.models.helmet_element.loop = true;
+        }
+        Animations.curr.element.style.opacity = "1";
+        Animations.curr.element.style.height = "70%";
+        Animations.curr.element.children[0].style.opacity = "0";
+        Animations.curr.button.style.backgroundColor = "lightgray";
+    }
+
+    static onExit() {
+        Animations.curr.element.style.height = "0%";
+        Animations.curr.element.style.zIndex = "1";
+        Animations.curr.element.children[0].style.opacity = "0";
+        Animations.curr.button.style.backgroundColor = "";
     }
 
     static onClick(index) {
@@ -52,11 +73,17 @@ export default class Animations {
         
         if (index == -1) {
             Animations.exit = true;
+            Animations.animations[3].style.backgroundColor = "lightgray";
+            Animations.onExit();
         } else if (Animations.state != -1) {
             Animations.immediateEnter = index;
             Animations.exit = true;
+            Animations.onExit();
         } else {
             Animations.state = index;
+            Animations.curr = Animations.animations[Animations.state];
+            Animations.animations[3].style.backgroundColor = "";
+            Animations.onEnter();
         }
     }
 
@@ -64,28 +91,13 @@ export default class Animations {
         if (Animations.inAnimation) {
             if (Animations.exit == true) {
                 Animations.animations[Animations.state].exit();
-                Animations.curr.style.display = "none";
             } else {
                 Animations.animations[Animations.state].enter();
-                switch (Animations.state) {
-                    case 0:
-                        Animations.projects.style.display = "block";
-                        Animations.curr = Animations.projects;
-                        break;
-                    case 1:
-                        Animations.extras.style.display = "block";
-                        Animations.curr = Animations.extras;
-                        break;
-                    case 2:
-                        Animations.about.style.display = "block";
-                        Animations.curr = Animations.about;
-                        break;
-                }
             }
         }
     }
 
-    constructor(scene, camera, cam_points, lookat_point, cam_speed, lookat_speed, return_speed, debug = true) {
+    constructor(scene, camera, cam_points, lookat_point, cam_speed, lookat_speed, return_speed, debug = true, element, button) {
         this.debug = debug;
         this.scene = scene;
         this.camera = camera;
@@ -93,6 +105,8 @@ export default class Animations {
         this.lookat_speed = lookat_speed;
         this.return_speed = return_speed;
         this.home = true;
+        this.element = element;
+        this.button = button;
 
         this.cam_progress = 0;
         this.lookat_progress = 0;
@@ -130,6 +144,12 @@ export default class Animations {
         }
     }
 
+    doneEnter() {
+        Animations.inAnimation = false;
+        Animations.curr.element.style.zIndex = "2";
+        Animations.curr.element.children[0].style.opacity = "1";
+    }
+
     enter() {
         let pos;
 
@@ -150,9 +170,27 @@ export default class Animations {
         this.camera.lookAt(pos);
 
         if (this.cam_progress == 1 && this.lookat_progress == 1) {
-            Animations.inAnimation = false;
-            Animations.immediateEnter = -1;
+            this.doneEnter();
         }
+    }
+
+    doneExit() {
+        if (Animations.state == 1) { // video texture for helmet
+            Models.shield.material = Models.sheild_off_mat;
+            Animations.models.helmet_element.pause();
+        }
+        Animations.curr.element.style.opacity = "0";
+        Animations.curr = Animations.animations[3];
+        if (Animations.immediateEnter != -1) {
+            Animations.state = Animations.immediateEnter;
+            Animations.immediateEnter = -1;
+            Animations.curr = Animations.animations[Animations.state];
+            Animations.onEnter();
+        } else {
+            Animations.inAnimation = false;
+            Animations.state = -1;
+        }
+        Animations.exit = false;
     }
 
     exit() {
@@ -175,13 +213,7 @@ export default class Animations {
         this.camera.lookAt(pos);
 
         if (this.cam_progress == 0 && this.lookat_progress == 0) {
-            if (Animations.immediateEnter != -1) {
-                Animations.state = Animations.immediateEnter;
-            } else {
-                Animations.inAnimation = false;
-                Animations.state = -1;
-            }
-            Animations.exit = false;
+            this.doneExit();
         }
     }
 }

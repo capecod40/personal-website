@@ -19,11 +19,17 @@ const loader = new GLTFLoader();
 // lighting
 const lighting = new Lighting(renderer, scene);
 
-// animations & buttons
-Animations.initialize(scene, view.camera, home_pos, document, window);
+// models & textures - includes play pause buttons
+const models = new Models(scene, loader, window);
 
-// models & textures
-const models = new Models(scene, loader);
+// animations & buttons
+Animations.initialize(scene, view.camera, home_pos, document, window, models);
+
+window.addEventListener('resize', function(){
+    document.body.style.zIndex = '1';
+}, false);
+
+Animations.onClick(0);
 
 function animate() {
 	requestAnimationFrame( animate );

@@ -1,7 +1,11 @@
 import * as THREE from 'three';
+import PlayPause from './PlayPause';
 
 export default class Models {
-    constructor(scene, loader) {
+    static shield;
+    static sheild_off_mat;
+
+    constructor(scene, loader, window) {
         // mario video texture
         let mario = document.getElementById( "mario video" );
         let mario_texture = new THREE.VideoTexture( mario );
@@ -32,29 +36,42 @@ export default class Models {
         let screen_off_material = new THREE.MeshBasicMaterial({color: 0x0});
 
         this.mario_material = mario_material;
+        this.mario_element = mario;
         this.osu_material = osu_material;
+        this.osu_element = osu;
         this.formula_material = formula_material;
+        this.formula_element = formula;
         this.vintage_material = vintage_material;
+        this.vintage_element = vintage;
         this.helmet_material = helmet_material;
+        this.helmet_element = helmet;
         this.screen_off_material = screen_off_material;
 
         let screen_geometry = new THREE.BoxGeometry(0.7, 0.39, .0001);
         let screen_mesh = new THREE.Mesh(screen_geometry, screen_off_material);
-        screen_mesh.position.set(-1.35499, 1.09544, -2.33416)
+        screen_mesh.position.set(-1.35499, 1.09544, -2.33416);
+        this.screen_mesh = screen_mesh;
         scene.add(screen_mesh);
+
+        PlayPause.initialize(0, osu_material, screen_mesh, this.osu_element, 
+            document.getElementById("osu-button"));
+        PlayPause.initialize(1, mario_material, screen_mesh, this.mario_element, 
+            document.getElementById("mario-button"));
+        window.playPause = PlayPause.toggle;
+        window.stop = PlayPause.stop;
         
-        let helmetChild;
         function setShadow(child) {
             child.castShadow = true;
             child.receiveShadow = true;
             if (child.userData.name == "shield") {
-                helmetChild = child;
+                Models.sheild_off_mat = child.material;
+                Models.shield = child;
             }
             child.children.forEach((subchild) => {
                 setShadow(subchild);
             })
         }
-        
+
         //load gltf
         loader.load( 'blender/room.gltf', function ( gltf ) {
             let model = gltf.scene;
@@ -63,11 +80,12 @@ export default class Models {
             model.children.forEach((child) => {
                 setShadow(child);
             })
-        
+
         }, undefined, function ( error ) {
         
             console.error( error );
         
         } );
     }
+
 }
