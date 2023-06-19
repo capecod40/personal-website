@@ -14,8 +14,6 @@ export default class View {
 
         renderer.setSize( canvas.offsetWidth, canvas.offsetHeight);
 
-        scene.background = new THREE.Color(0xc7dcff);
-
         camera.position.set(home_pos.x, home_pos.y, home_pos.z);
         camera.lookAt(0, 0.5, -0.15);
 

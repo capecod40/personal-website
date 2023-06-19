@@ -73,7 +73,7 @@ export default class Animations {
         
         if (index == -1) {
             Animations.exit = true;
-            Animations.animations[3].style.backgroundColor = "lightgray";
+            // Animations.animations[3].style.backgroundColor = "lightgray";
             Animations.onExit();
         } else if (Animations.state != -1) {
             Animations.immediateEnter = index;
@@ -82,7 +82,7 @@ export default class Animations {
         } else {
             Animations.state = index;
             Animations.curr = Animations.animations[Animations.state];
-            Animations.animations[3].style.backgroundColor = "";
+            // Animations.animations[3].style.backgroundColor = "";
             Animations.onEnter();
         }
     }
@@ -180,7 +180,7 @@ export default class Animations {
             Animations.models.helmet_element.pause();
         }
         Animations.curr.element.style.opacity = "0";
-        Animations.curr = Animations.animations[3];
+        // Animations.curr = Animations.animations[3];
         if (Animations.immediateEnter != -1) {
             Animations.state = Animations.immediateEnter;
             Animations.immediateEnter = -1;

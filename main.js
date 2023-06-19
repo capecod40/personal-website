@@ -10,7 +10,7 @@ import Models from './src/Models.js';
 
 const canvas = document.getElementById("render-canvas");
 const scene = new THREE.Scene();
-const renderer = new THREE.WebGLRenderer({ canvas: canvas, antialias: true });
+const renderer = new THREE.WebGLRenderer({ canvas: canvas, antialias: true, alpha: true});
 const home_pos = new THREE.Vector3(-3.48, 1.29, -1.4);
 const view = new View(renderer, window, document, canvas, scene, home_pos);
 const controls = new OrbitControls( view.camera, renderer.domElement );
@@ -29,7 +29,7 @@ window.addEventListener('resize', function(){
     document.body.style.zIndex = '1';
 }, false);
 
-Animations.onClick(0);
+// Animations.onClick(0);
 
 function animate() {
 	requestAnimationFrame( animate );
