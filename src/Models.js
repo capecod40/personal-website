@@ -54,9 +54,9 @@ export default class Models {
         scene.add(screen_mesh);
 
         PlayPause.initialize(0, osu_material, screen_mesh, this.osu_element, 
-            document.getElementById("osu-button"));
+            document.getElementById("osu-button"), this.screen_off_material);
         PlayPause.initialize(1, mario_material, screen_mesh, this.mario_element, 
-            document.getElementById("mario-button"));
+            document.getElementById("mario-button"), this.screen_off_material);
         window.playPause = PlayPause.toggle;
         window.stop = PlayPause.stop;
         

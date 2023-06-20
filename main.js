@@ -13,7 +13,7 @@ const scene = new THREE.Scene();
 const renderer = new THREE.WebGLRenderer({ canvas: canvas, antialias: true, alpha: true});
 const home_pos = new THREE.Vector3(-3.48, 1.29, -1.4);
 const view = new View(renderer, window, document, canvas, scene, home_pos);
-// const controls = new OrbitControls( view.camera, renderer.domElement );
+const controls = new OrbitControls( view.camera, renderer.domElement );
 const loader = new GLTFLoader();
 
 // lighting
@@ -23,7 +23,7 @@ const lighting = new Lighting(renderer, scene);
 const models = new Models(scene, loader, window);
 
 // animations & buttons
-Animations.initialize(scene, view.camera, home_pos, document, window, models);
+Animations.initialize(scene, view.camera, home_pos, document, window, models, );
 
 window.addEventListener('resize', function(){
     document.body.style.zIndex = '1';
