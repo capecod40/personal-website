@@ -1,5 +1,6 @@
 import * as THREE from 'three'
 import Models from './Models.js';
+import PlayPause from './PlayPause.js';
 
 export default class Animations {
 
@@ -59,6 +60,10 @@ export default class Animations {
     }
 
     static onExit() {
+        if (Animations.curr == Animations.animations[0]) {
+            PlayPause.stop(0);
+            PlayPause.stop(1);
+        }
         Animations.curr.element.style.height = "0%";
         Animations.curr.element.style.zIndex = "1";
         Animations.curr.element.children[0].style.opacity = "0";

@@ -23,7 +23,7 @@ const lighting = new Lighting(renderer, scene);
 const models = new Models(scene, loader, window);
 
 // animations & buttons
-Animations.initialize(scene, view.camera, home_pos, document, window, models);
+Animations.initialize(scene, view.camera, home_pos, document, window, models, );
 
 window.addEventListener('resize', function(){
     document.body.style.zIndex = '1';

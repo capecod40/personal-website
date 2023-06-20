@@ -4,10 +4,13 @@ export default class PlayPause {
     static buttons = [];
     static curr = null;
     static screen = null;
+    static off_material = null;
 
-    static initialize(index, material, screen, videoElement, image) {
-        if (PlayPause.screen == null)
+    static initialize(index, material, screen, videoElement, image, off_material) {
+        if (PlayPause.screen == null) 
             PlayPause.screen = screen;
+        if (PlayPause.off_material == null)
+            PlayPause.off_material = off_material
 
         PlayPause.buttons[index] = new PlayPause(material, videoElement, image);
     }
@@ -38,8 +41,10 @@ export default class PlayPause {
     }
 
     static stop(index) {
-        PlayPause.buttons[index].videoElement.pause();
+        PlayPause.curr = null;
+        PlayPause.buttons[index].pause();
         PlayPause.buttons[index].videoElement.currentTime = 0;
+        PlayPause.screen.material = PlayPause.off_material;
     }
 
     play() {
