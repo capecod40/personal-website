@@ -10,6 +10,7 @@ export default class Animations {
     static state = -1;
     static immediateEnter = -1;
     static animations = [];
+    // static date;
 
     static curr;
 
@@ -19,25 +20,26 @@ export default class Animations {
         // 2: about
 
         Animations.models = models;
+        // Animations.date = new Date();
 
         Animations.animations[0] = new Animations(scene, camera, 
             [	home_pos,
                 new THREE.Vector3( -1.13, 1.05, -1.8 ) ], 
-                new THREE.Vector3( -1.1, 1.03, -2.2 ),  0.01, 0.01, 0.01, false, 
+                new THREE.Vector3( -1.1, 1.03, -2.2 ),  0.03, 0.03, 0.03, false, 
                 document.getElementById("projects"), document.getElementById("projects-button")
         )
 
         Animations.animations[1] = new Animations(scene, camera, 
             [	home_pos,
                 new THREE.Vector3( -1.5, 1.4, 0.4 ) ], 
-                new THREE.Vector3( 0.8, 1, 0.9 ), 0.015, 0.015, 0.015, false, 
+                new THREE.Vector3( 0.8, 1, 0.9 ), 0.03, 0.03, 0.03, false, 
                 document.getElementById("extras"), document.getElementById("extras-button")
         )
 
         Animations.animations[2] = new Animations(scene, camera, 
             [	home_pos,
                 new THREE.Vector3( 1.2, 0.7, -2.2 ) ], 
-                new THREE.Vector3( 1.4, 0.5, -1.4 ), 0.01, 0.01, 0.01, false, 
+                new THREE.Vector3( 1.4, 0.5, -1.4 ), 0.03, 0.03, 0.03, false, 
                 document.getElementById("about"), document.getElementById("about-button")
         )
 
@@ -57,6 +59,7 @@ export default class Animations {
         Animations.curr.element.style.height = "70%";
         Animations.curr.element.children[0].style.opacity = "0";
         Animations.curr.button.style.backgroundColor = "lightgray";
+        Animations.curr.time = Date.now();
     }
 
     static onExit() {
@@ -68,6 +71,7 @@ export default class Animations {
         Animations.curr.element.style.zIndex = "1";
         Animations.curr.element.children[0].style.opacity = "0";
         Animations.curr.button.style.backgroundColor = "";
+        Animations.curr.time = Date.now();
     }
 
     static onClick(index) {
@@ -112,6 +116,7 @@ export default class Animations {
         this.home = true;
         this.element = element;
         this.button = button;
+        this.time = null;
 
         this.cam_progress = 0;
         this.lookat_progress = 0;
@@ -158,8 +163,13 @@ export default class Animations {
     enter() {
         let pos;
 
+        if (Date.now() - this.time >= 15) {
+            this.cam_progress += this.cam_speed;
+            this.lookat_progress += this.lookat_speed;
+            this.time = Date.now();
+        }
+
         // cam curve
-        this.cam_progress += this.cam_speed;
         if (this.cam_progress >= 1)
             this.cam_progress = 1
 
@@ -167,7 +177,6 @@ export default class Animations {
         this.camera.position.copy(pos);
 
         // lookat curve
-        this.lookat_progress += this.lookat_speed;
         if (this.lookat_progress > 1)
             this.lookat_progress = 1;
         
@@ -202,7 +211,13 @@ export default class Animations {
         let pos;
 
         // cam curve
-        this.cam_progress -= this.cam_speed;
+
+        if (Date.now() - this.time >= 15) {
+            this.cam_progress -= this.cam_speed;
+            this.lookat_progress -= this.return_speed;
+            this.time = Date.now();
+        }
+
         if (this.cam_progress < 0)
             this.cam_progress = 0;
 
@@ -210,7 +225,6 @@ export default class Animations {
         this.camera.position.copy(pos);
 
         // lookat curve
-        this.lookat_progress -= this.return_speed;
         if (this.lookat_progress < 0)
             this.lookat_progress = 0;
         
