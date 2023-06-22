@@ -1,9 +1,15 @@
 import * as THREE from 'three';
 import PlayPause from './PlayPause.js';
+import Loading from './Loading.js';
 
 export default class Models {
     static shield;
     static sheild_off_mat;
+
+    static callback() {
+        Loading.element.style.display = "none";
+        console.log("done loading");
+    }
 
     constructor(scene, loader, window) {
         // mario video texture
@@ -80,6 +86,8 @@ export default class Models {
             model.children.forEach((child) => {
                 setShadow(child);
             })
+
+            Models.callback();
 
         }, undefined, function ( error ) {
         

@@ -17,7 +17,7 @@ const view = new View(renderer, window, document, canvas, scene, home_pos);
 const controls = new OrbitControls( view.camera, renderer.domElement );
 const loader = new GLTFLoader();
 
-const loading = new Loading(document);
+Loading.initialize(document);
 
 // lighting
 const lighting = new Lighting(renderer, scene);
@@ -31,8 +31,6 @@ Animations.initialize(scene, view.camera, home_pos, document, window, models, );
 window.addEventListener('resize', function(){
     document.body.style.zIndex = '1';
 }, false);
-
-// Animations.onClick(0);
 
 function animate() {
 	requestAnimationFrame( animate );
