@@ -28,6 +28,8 @@ const models = new Models(scene, loader, window);
 // animations & buttons
 Animations.initialize(scene, view.camera, home_pos, document, window, models, );
 
+Animations.onClick(4);
+
 window.addEventListener('resize', function(){
     document.body.style.zIndex = '1';
 }, false);
@@ -38,6 +40,7 @@ function animate() {
 	Animations.animate();
 
 	renderer.render( scene, view.camera );
+	console.log(view.camera.position);
 }
 
 animate();
