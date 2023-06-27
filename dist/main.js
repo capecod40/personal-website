@@ -14,7 +14,7 @@ const scene = new THREE.Scene();
 const renderer = new THREE.WebGLRenderer({ canvas: canvas, antialias: true, alpha: true});
 const home_pos = new THREE.Vector3(-3.48, 1.29, -1.4);
 const view = new View(renderer, window, document, canvas, scene, home_pos);
-const controls = new OrbitControls( view.camera, renderer.domElement );
+// const controls = new OrbitControls( view.camera, renderer.domElement );
 const loader = new GLTFLoader();
 
 Loading.initialize(document);
