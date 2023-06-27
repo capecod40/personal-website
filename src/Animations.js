@@ -1,6 +1,7 @@
 import * as THREE from 'three'
 import Models from './Models.js';
 import PlayPause from './PlayPause.js';
+import Loading from './Loading.js';
 
 export default class Animations {
 
@@ -17,6 +18,8 @@ export default class Animations {
         // 0: projects
         // 1: extras
         // 2: about
+        // 3: home
+        // 4: loading
 
         Animations.models = models;
 
@@ -56,7 +59,7 @@ export default class Animations {
             [
                 new THREE.Vector3(0, 0, 0), 
                 new THREE.Vector3( -1.37, 1.0565, -1.1 ), 
-                new THREE.Vector3( -1.37, 1.0565, -3)], 0.005, 0.03, 0.005, true, 
+                new THREE.Vector3( -1.37, 1.0565, -3)], 0.003, 0.03, 0.003, false, 
                 null, null);
 
         Animations.window = window;
@@ -170,11 +173,14 @@ export default class Animations {
     }
 
     doneEnter() {
-        Animations.inAnimation = false;
-        if (Animations.state != 4) {
-            Animations.curr.element.style.zIndex = "2";
-            Animations.curr.element.children[0].style.opacity = "1";
+        if (Animations.state == 4) {
+            Animations.inAnimation = false;
+            Loading.animationReady = true;
+            Loading.callback();
+            return;
         }
+        Animations.curr.element.style.zIndex = "2";
+        Animations.curr.element.children[0].style.opacity = "1";
     }
 
     enter() {
@@ -206,15 +212,23 @@ export default class Animations {
     }
 
     doneExit() {
+        if (Animations.state == 4) {
+            Animations.inAnimation = false;
+            Animations.state = -1;
+            Animations.exit = false;
+            Loading.element.style.display = "none";
+            return;
+        }
+
         if (Animations.state == 1) { // video texture for helmet
             Models.shield.material = Models.sheild_off_mat;
             Animations.models.helmet_element.pause();
         }
-        if (Animations.state != 4)
-            Animations.curr.element.style.opacity = "0";
-
-        // Animations.curr = Animations.animations[3];
+        Animations.curr.element.style.opacity = "0";
+        
         if (Animations.immediateEnter != -1) {
+            console.log(Animations.immediateEnter);
+
             Animations.state = Animations.immediateEnter;
             Animations.immediateEnter = -1;
             Animations.curr = Animations.animations[Animations.state];

@@ -6,11 +6,6 @@ export default class Models {
     static shield;
     static sheild_off_mat;
 
-    static callback() {
-        Loading.element.style.display = "none";
-        console.log("done loading");
-    }
-
     constructor(scene, loader, window) {
         // mario video texture
         let mario = document.getElementById( "mario video" );
@@ -69,6 +64,8 @@ export default class Models {
         function setShadow(child) {
             child.castShadow = true;
             child.receiveShadow = true;
+            Loading.text.textContent = "Loading asset: " + child.userData.name;
+            // console.log("Loading asset: " + child.userData.name);
             if (child.userData.name == "shield") {
                 Models.sheild_off_mat = child.material;
                 Models.shield = child;
@@ -86,8 +83,8 @@ export default class Models {
             model.children.forEach((child) => {
                 setShadow(child);
             })
-
-            Models.callback();
+            Loading.modelsReady = true;
+            Loading.callback();
 
         }, undefined, function ( error ) {
         

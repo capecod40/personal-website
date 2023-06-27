@@ -40,7 +40,7 @@ function animate() {
 	Animations.animate();
 
 	renderer.render( scene, view.camera );
-	console.log(view.camera.position);
+	// console.log(view.camera.position);
 }
 
 animate();
