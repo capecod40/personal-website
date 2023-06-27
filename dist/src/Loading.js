@@ -1,4 +1,4 @@
-import Animations from "./Animations";
+import Animations from "./Animations.js";
 
 export default class Loading {
     static element;
