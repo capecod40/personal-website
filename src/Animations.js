@@ -1,6 +1,7 @@
 import * as THREE from 'three'
 import Models from './Models.js';
 import PlayPause from './PlayPause.js';
+import Loading from './Loading.js';
 
 export default class Animations {
 
@@ -17,37 +18,60 @@ export default class Animations {
         // 0: projects
         // 1: extras
         // 2: about
+        // 3: home
+        // 4: loading
 
         Animations.models = models;
 
         Animations.animations[0] = new Animations(scene, camera, 
             [	home_pos,
                 new THREE.Vector3( -1.13, 1.05, -1.8 ) ], 
-                new THREE.Vector3( -1.1, 1.03, -2.2 ),  0.01, 0.01, 0.01, false, 
+            [
+                new THREE.Vector3(0, 0, 0), 
+                new THREE.Vector3( -1.1, 1.03, -2.2 )], 0.03, 0.03, 0.03, false, 
                 document.getElementById("projects"), document.getElementById("projects-button")
         )
 
         Animations.animations[1] = new Animations(scene, camera, 
             [	home_pos,
                 new THREE.Vector3( -1.5, 1.4, 0.4 ) ], 
-                new THREE.Vector3( 0.8, 1, 0.9 ), 0.015, 0.015, 0.015, false, 
+            [
+                new THREE.Vector3(0, 0, 0), 
+                new THREE.Vector3( 0.8, 1, 0.9 )], 0.03, 0.03, 0.03, false, 
                 document.getElementById("extras"), document.getElementById("extras-button")
         )
 
         Animations.animations[2] = new Animations(scene, camera, 
             [	home_pos,
                 new THREE.Vector3( 1.2, 0.7, -2.2 ) ], 
-                new THREE.Vector3( 1.4, 0.5, -1.4 ), 0.01, 0.01, 0.01, false, 
+            [
+                new THREE.Vector3(0, 0, 0), 
+                new THREE.Vector3( 1.4, 0.5, -1.4 )], 0.03, 0.03, 0.03, false, 
                 document.getElementById("about"), document.getElementById("about-button")
         )
 
         Animations.curr = Animations.animations[3] = document.getElementById("home-button");
+
+        Animations.animations[4] = new Animations(scene, camera, 
+            [   home_pos, 
+                new THREE.Vector3( -2, 1.2, -1 ), 
+                new THREE.Vector3( -1.37, 1.0565, -2.233 )], 
+            [
+                new THREE.Vector3(0, 0, 0), 
+                new THREE.Vector3( -1.37, 1.0565, -1.1 ), 
+                new THREE.Vector3( -1.37, 1.0565, -3)], 0.003, 0.03, 0.003, false, 
+                null, null);
 
         Animations.window = window;
         window.onClick = this.onClick;
     }
 
     static onEnter() {
+        if (Animations.state == 4) {
+            Animations.curr.time = Date.now();
+            return;
+        }
+
         if (Animations.state == 1) { // video texture for helmet
             Models.shield.material = Animations.models.helmet_material;
             Animations.models.helmet_element.play();
@@ -57,9 +81,15 @@ export default class Animations {
         Animations.curr.element.style.height = "70%";
         Animations.curr.element.children[0].style.opacity = "0";
         Animations.curr.button.style.backgroundColor = "lightgray";
+        Animations.curr.time = Date.now();
     }
 
     static onExit() {
+        if (Animations.state == 4) {
+            Animations.curr.time = Date.now();
+            return;
+        }
+
         if (Animations.curr == Animations.animations[0]) {
             PlayPause.stop(0);
             PlayPause.stop(1);
@@ -68,6 +98,7 @@ export default class Animations {
         Animations.curr.element.style.zIndex = "1";
         Animations.curr.element.children[0].style.opacity = "0";
         Animations.curr.button.style.backgroundColor = "";
+        Animations.curr.time = Date.now();
     }
 
     static onClick(index) {
@@ -78,7 +109,6 @@ export default class Animations {
         
         if (index == -1) {
             Animations.exit = true;
-            // Animations.animations[3].style.backgroundColor = "lightgray";
             Animations.onExit();
         } else if (Animations.state != -1) {
             Animations.immediateEnter = index;
@@ -87,7 +117,6 @@ export default class Animations {
         } else {
             Animations.state = index;
             Animations.curr = Animations.animations[Animations.state];
-            // Animations.animations[3].style.backgroundColor = "";
             Animations.onEnter();
         }
     }
@@ -102,7 +131,7 @@ export default class Animations {
         }
     }
 
-    constructor(scene, camera, cam_points, lookat_point, cam_speed, lookat_speed, return_speed, debug = true, element, button) {
+    constructor(scene, camera, cam_points, lookat_points, cam_speed, lookat_speed, return_speed, debug = true, element, button) {
         this.debug = debug;
         this.scene = scene;
         this.camera = camera;
@@ -112,22 +141,16 @@ export default class Animations {
         this.home = true;
         this.element = element;
         this.button = button;
+        this.time = null;
 
         this.cam_progress = 0;
         this.lookat_progress = 0;
 
         this.cam_curve = new THREE.CatmullRomCurve3( cam_points );
 
-        let lookat_points = [
-            new THREE.Vector3(0, 0, 0), 
-            lookat_point
-        ];
         this.lookat_curve = new THREE.CatmullRomCurve3( lookat_points );
 
-        let return_points = [
-            new THREE.Vector3(0, 0, 0), 
-            lookat_points[lookat_points.length - 1]
-        ];
+        let return_points = lookat_points;
         this.return_curve = new THREE.CatmullRomCurve3( return_points );
 
         if (debug) {
@@ -150,7 +173,12 @@ export default class Animations {
     }
 
     doneEnter() {
-        Animations.inAnimation = false;
+        if (Animations.state == 4) {
+            Animations.inAnimation = false;
+            Loading.animationReady = true;
+            Loading.callback();
+            return;
+        }
         Animations.curr.element.style.zIndex = "2";
         Animations.curr.element.children[0].style.opacity = "1";
     }
@@ -158,8 +186,13 @@ export default class Animations {
     enter() {
         let pos;
 
+        if (Date.now() - this.time >= 15) {
+            this.cam_progress += this.cam_speed;
+            this.lookat_progress += this.lookat_speed;
+            this.time = Date.now();
+        }
+
         // cam curve
-        this.cam_progress += this.cam_speed;
         if (this.cam_progress >= 1)
             this.cam_progress = 1
 
@@ -167,7 +200,6 @@ export default class Animations {
         this.camera.position.copy(pos);
 
         // lookat curve
-        this.lookat_progress += this.lookat_speed;
         if (this.lookat_progress > 1)
             this.lookat_progress = 1;
         
@@ -180,13 +212,23 @@ export default class Animations {
     }
 
     doneExit() {
+        if (Animations.state == 4) {
+            Animations.inAnimation = false;
+            Animations.state = -1;
+            Animations.exit = false;
+            Loading.element.style.display = "none";
+            return;
+        }
+
         if (Animations.state == 1) { // video texture for helmet
             Models.shield.material = Models.sheild_off_mat;
             Animations.models.helmet_element.pause();
         }
         Animations.curr.element.style.opacity = "0";
-        // Animations.curr = Animations.animations[3];
+        
         if (Animations.immediateEnter != -1) {
+            console.log(Animations.immediateEnter);
+
             Animations.state = Animations.immediateEnter;
             Animations.immediateEnter = -1;
             Animations.curr = Animations.animations[Animations.state];
@@ -202,7 +244,13 @@ export default class Animations {
         let pos;
 
         // cam curve
-        this.cam_progress -= this.cam_speed;
+
+        if (Date.now() - this.time >= 15) {
+            this.cam_progress -= this.cam_speed;
+            this.lookat_progress -= this.return_speed;
+            this.time = Date.now();
+        }
+
         if (this.cam_progress < 0)
             this.cam_progress = 0;
 
@@ -210,7 +258,6 @@ export default class Animations {
         this.camera.position.copy(pos);
 
         // lookat curve
-        this.lookat_progress -= this.return_speed;
         if (this.lookat_progress < 0)
             this.lookat_progress = 0;
         

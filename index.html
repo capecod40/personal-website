@@ -21,28 +21,18 @@
 		<link href="https://fonts.googleapis.com/css2?family=Lexend+Deca&display=swap" rel="stylesheet">
 	</head>
 
-	<video id="mario video" style="display: none">
-		<source src="./assets/mario.mp4" type="video/mp4">
-	</video>
-
-	<video id="osu video" style="display: none">
-		<source src="./assets/osu.mp4" type="video/mp4">
-	</video>
-
-	<video id="formula video" style="display: none">
-		<source src="./assets/formula.mp4" type="video/mp4">
-	</video>
-
-	<video id="vintage video" style="display: none">
-		<source src="./assets/vintage.mp4" type="video/mp4">
-	</video>
-
-	<video id="helmet video" style="display: none" loop>
-		<source src="./assets/helmet.mp4" type="video/mp4">
-	</video>
-
 	<body>
-		<div class="buttons">
+		<div id="loading-screen">
+			<img id="windows-logo" src="./assets/windows.jpg">
+			<div id="loading-text">
+				Loading asset:
+			</div>
+			<video id="loading-animation" autoplay muted loop>
+				<source src="./assets/loading.mp4" type="video/mp4">
+			</video>
+		</div>
+		
+		<div id="buttons">
 			<button class="button" id="home-button" onclick="onClick(-1)">Home</button>
 			<button class="button" id="projects-button" onclick="onClick(0)">Projects</button>
 			<button class="button" id="extras-button" onclick="onClick(1)">Extras</button>
@@ -131,11 +121,31 @@
 				Engineering Foundations Certificate (transferred to UBC) <br>
 				●	GPA (4.30/4.33)<br>
 				●	Dean’s List, Microserve Scholarship, M.H. (Bill) Morfey Scholarship
-
 			</div>
 		</div>
 
 		<canvas class="render-canvas" id="render-canvas"></canvas>
 
 	</body>
+
+	<video id="mario video" style="display: none">
+		<source src="./assets/mario.mp4" type="video/mp4">
+	</video>
+
+	<video id="osu video" style="display: none">
+		<source src="./assets/osu.mp4" type="video/mp4">
+	</video>
+
+	<video id="formula video" style="display: none">
+		<source src="./assets/formula.mp4" type="video/mp4">
+	</video>
+
+	<video id="vintage video" style="display: none">
+		<source src="./assets/vintage.mp4" type="video/mp4">
+	</video>
+
+	<video id="helmet video" style="display: none" loop>
+		<source src="./assets/helmet.mp4" type="video/mp4">
+	</video>
+
 </html>

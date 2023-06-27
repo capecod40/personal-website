@@ -7,6 +7,7 @@ import Animations from './src/Animations.js';
 import Lighting from './src/Lighting.js'
 import View from './src/View.js';
 import Models from './src/Models.js';
+import Loading from './src/Loading.js';
 
 const canvas = document.getElementById("render-canvas");
 const scene = new THREE.Scene();
@@ -15,6 +16,8 @@ const home_pos = new THREE.Vector3(-3.48, 1.29, -1.4);
 const view = new View(renderer, window, document, canvas, scene, home_pos);
 // const controls = new OrbitControls( view.camera, renderer.domElement );
 const loader = new GLTFLoader();
+
+Loading.initialize(document);
 
 // lighting
 const lighting = new Lighting(renderer, scene);
@@ -25,11 +28,11 @@ const models = new Models(scene, loader, window);
 // animations & buttons
 Animations.initialize(scene, view.camera, home_pos, document, window, models, );
 
+Animations.onClick(4);
+
 window.addEventListener('resize', function(){
     document.body.style.zIndex = '1';
 }, false);
-
-// Animations.onClick(0);
 
 function animate() {
 	requestAnimationFrame( animate );
@@ -37,6 +40,7 @@ function animate() {
 	Animations.animate();
 
 	renderer.render( scene, view.camera );
+	// console.log(view.camera.position);
 }
 
 animate();

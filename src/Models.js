@@ -1,5 +1,6 @@
 import * as THREE from 'three';
 import PlayPause from './PlayPause.js';
+import Loading from './Loading.js';
 
 export default class Models {
     static shield;
@@ -63,6 +64,8 @@ export default class Models {
         function setShadow(child) {
             child.castShadow = true;
             child.receiveShadow = true;
+            Loading.text.textContent = "Loading asset: " + child.userData.name;
+            // console.log("Loading asset: " + child.userData.name);
             if (child.userData.name == "shield") {
                 Models.sheild_off_mat = child.material;
                 Models.shield = child;
@@ -80,6 +83,8 @@ export default class Models {
             model.children.forEach((child) => {
                 setShadow(child);
             })
+            Loading.modelsReady = true;
+            Loading.callback();
 
         }, undefined, function ( error ) {
         
