@@ -2,44 +2,51 @@ import Animations from "./Animations.js";
 
 export default class Loading {
     static element;
-    static text;
+    static text = [];
     static buttons;
     static animationReady = false;
     static modelsReady = false;
     static landscape = true;
-    static warningText;
-    static normalText;
+    static done = false;
 
     static initialize(document, window) {
         Loading.element = document.getElementById("loading-screen");
-        Loading.text = document.getElementById("loading-text");
         Loading.buttons = document.getElementById("buttons");
-        Loading.landscape = window.innerHeight < window.innerWidth;
-        Loading.warningText = "Loading assets...\n\n\nPlease rotate your device to landscape";
-        Loading.normalText = "Loading assets...";
+        Loading.text[0] = document.getElementById("assets-text");
+        Loading.text[1] = document.getElementById("rotate-text");
+        Loading.text[2] = document.getElementById("time-text");
+        Loading.landscape = window.innerHeight < window.innerWidth - 200;
 
         if (!Loading.landscape) {
-            Loading.text.textContent += "\n\n\n Please rotate your device to landscape"
+            Loading.text[1].style.display = "";
         }
 
+        window.setTimeout(() => {
+            if (!(Loading.animationReady && Loading.modelsReady)) {
+                Loading.text[2].style.display = "";
+            }
+        }, 15000);
+
         window.addEventListener("resize", function (){
-            Loading.landscape = window.innerHeight < window.innerWidth;
+            Loading.landscape = window.innerHeight < window.innerWidth - 200;
             if (Loading.landscape) {
-                Loading.text.textContent = Loading.normalText;
+                Loading.text[1].style.display = "none";
                 Loading.callback();
             } else {
-                Loading.text.textContent = Loading.warningText;
+                Loading.text[1].style.display = "";
             }
         })
     }
 
     static callback() {
-        if (Loading.animationReady && Loading.modelsReady && Loading.landscape) {
+        if (Loading.animationReady && Loading.modelsReady && Loading.landscape && !Loading.done) {
             Animations.onClick(-1);
             Loading.buttons.style.opacity = "1";
             Loading.element.style.opacity = "0";
+            Loading.done = true;
         } else if (Loading.animationReady && Loading.modelsReady) {
-            Loading.text.textContent = "Please rotate your device to landscape";
+            Loading.text[0].style.display = Loading.text[2].style.display = "none";
+            Loading.text[1].style.display = "";
         }
     }
 }
