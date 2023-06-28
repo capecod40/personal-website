@@ -80,7 +80,7 @@ export default class Animations {
         Animations.curr.element.style.opacity = "1";
         Animations.curr.element.style.height = "70%";
         Animations.curr.element.children[0].style.opacity = "0";
-        Animations.curr.button.style.backgroundColor = "lightgray";
+        Animations.curr.button.style.backgroundColor = "rgba(256, 256, 256, 0.1)";
         Animations.curr.time = Date.now();
     }
 
