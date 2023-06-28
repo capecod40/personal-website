@@ -6,7 +6,24 @@ html, body {
     font-family: 'Lexend Deca', sans-serif;
     font-size: 0.7vw;
     overflow:hidden;
-    background: linear-gradient(#aaaaaa, #1d1d1d, #1d1d1d 50%);
+    background: linear-gradient(#000000, #1d1d1d, #1d1d1d 50%);
+}
+
+a:link {
+    color: white;
+    text-decoration: none;
+}
+a:visited {
+    color: white;
+    text-decoration: none;
+}
+a:hover {
+    color: lightblue;
+    text-decoration: underline;
+}
+a:active {
+    color: rgb(71, 71, 139);
+    text-decoration: underline;
 }
 
 #loading-screen {
@@ -68,7 +85,7 @@ html, body {
     right: 0;
     text-align: center;
     height: 10%;
-    background-color: rgba(256, 256, 256, 0.3);
+    background-color: rgba(256, 256, 256, 0);
     opacity: 0;
     transition: opacity 4s;
 }
@@ -90,14 +107,15 @@ html, body {
     height: 60%;
     font-family: 'Lexend Deca', sans-serif;
     font-size: 1.5vw;
+    color: white;
     border: none;
     border-radius: 10px;
     margin: 1%;
-    background-color: rgba(256, 256, 256, 0.3);
+    background-color: rgba(256, 256, 256, 0);
 }
 
 .button:hover {
-    background-color: darkgray;
+    background-color: rgba(256, 256, 256, 0.3);
 }
 
 .content {
@@ -110,7 +128,8 @@ html, body {
     position: absolute;
     right: 5%;
     top: 14.2%;
-    background-color: #e7dfdd;
+    background-color: rgba(0, 0, 0, 0.5);
+    color: white;
     text-align: center;
     height: 0%;
     width: 35%;
@@ -127,7 +146,7 @@ html, body {
     position: absolute;
     left: 5%;
     top: 14.2%;
-    background-color: #e7dfdd;
+    background-color: rgba(0, 0, 0, 0.5);
     text-align: center;
     height: 0%;
     width: 35%;
@@ -152,7 +171,8 @@ html, body {
     grid-template-columns: 1fr 2fr;
     grid-column-gap: 0;
     align-items: center;
-    background-color: #d3d2e4;
+    background-color: black;
+    color: white;
     border-radius: 15px;
     justify-items: center;
     align-items: center;
@@ -175,7 +195,7 @@ html, body {
     grid-template-rows: auto minmax(0, 1fr);
     justify-items: center;
     align-items: center;
-    background-color: #d3d2e4;
+    background-color: black;
     border-radius: 15px;
     overflow-y: auto;
 }
@@ -198,12 +218,12 @@ html, body {
     padding: 0;
     border: none;
     border-radius: 100%;
-    background-color: rgba(256, 256, 256, 0.3);
+    background-color: rgba(256, 256, 256, 0);
     width:5%;
 }
 
 .media-button:hover {
-    background-color: darkgray;
+    background-color: rgba(256, 256, 256, 0.3);
 }
 
 .media-button-image {
