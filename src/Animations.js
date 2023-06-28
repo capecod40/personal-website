@@ -227,8 +227,6 @@ export default class Animations {
         Animations.curr.element.style.opacity = "0";
         
         if (Animations.immediateEnter != -1) {
-            console.log(Animations.immediateEnter);
-
             Animations.state = Animations.immediateEnter;
             Animations.immediateEnter = -1;
             Animations.curr = Animations.animations[Animations.state];

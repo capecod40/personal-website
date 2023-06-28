@@ -15,7 +15,7 @@ export default class View {
         renderer.setSize( canvas.offsetWidth, canvas.offsetHeight);
 
         camera.position.set(home_pos.x, home_pos.y, home_pos.z);
-        camera.lookAt(0, 0.5, -0.15);
+        camera.lookAt(-0.0006048280412909791, 0.013682330418916177, -0.011169042058615615);
 
         window.addEventListener("resize", function (){
             let aspect = window.innerWidth / window.innerHeight;
