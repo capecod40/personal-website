@@ -24,11 +24,13 @@
 	</head>
 
 	<body>
+		<div id="home-blocker"></div>
+
 		<div id="loading-screen">
 			<img id="windows-logo" src="./assets/windows.jpg">
-			<div id="loading-text">
-				Loading assets...
-			</div>
+			<p class="loading-text" id="assets-text">Loading assets...</p>
+			<p class="loading-text" id="rotate-text" style="display: none;">Please rotate your device to landscape</p>
+			<p class="loading-text" id="time-text" style="display: none;">Thank you for your patience. The first startup usually takes a while.</p>
 			<video id="loading-animation" autoplay muted loop>
 				<source src="./assets/loading.mp4" type="video/mp4">
 			</video>
@@ -40,6 +42,7 @@
 			<button class="button" id="projects-button" onclick="onClick(0)">Projects</button>
 			<button class="button" id="extras-button" onclick="onClick(1)">Extras</button>
 		</div>
+
 
 		<div class="text-right" id="projects">
 			<div class="content" id="projects-container">
