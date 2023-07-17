@@ -207,10 +207,16 @@ a:active {
 
 .media-buttons {
     /* border: 1px solid red; */
-    float: left;
-    text-align: center;
+    display: flex;
+    justify-content: center;
     margin-bottom: 0.5%;
-
+}
+.demo-text {
+    /* border: 1px solid red; */
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    padding-right: 1%;
 }
 
 .media-button {
