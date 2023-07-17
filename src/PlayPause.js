@@ -41,10 +41,12 @@ export default class PlayPause {
     }
 
     static stop(index) {
-        PlayPause.curr = null;
-        PlayPause.buttons[index].pause();
-        PlayPause.buttons[index].videoElement.currentTime = 0;
-        PlayPause.screen.material = PlayPause.off_material;
+        if (PlayPause.buttons[index] == PlayPause.curr) {
+            PlayPause.curr = null;
+            PlayPause.buttons[index].pause();
+            PlayPause.buttons[index].videoElement.currentTime = 0;
+            PlayPause.screen.material = PlayPause.off_material;
+        }
     }
 
     play() {
