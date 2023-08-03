@@ -77,7 +77,7 @@ export default class Models {
         }
 
         //load gltf
-        loader.load( 'blender/room.gltf', function ( gltf ) {
+        loader.load( '../blender/room.gltf', function ( gltf ) {
             let model = gltf.scene;
             scene.add( model );
         
