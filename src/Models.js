@@ -1,7 +1,7 @@
 import * as THREE from "three";
 import PlayPause from "./PlayPause.js";
 import Loading from "./Loading.js";
-import Animations from "./Animations.js";
+import roomUrl from "../assets/room.gltf";
 
 export default class Models {
   static shield;
@@ -110,7 +110,7 @@ export default class Models {
 
     //load gltf
     loader.load(
-      "../blender/room.gltf",
+      roomUrl,
       function (gltf) {
         let model = gltf.scene;
         scene.add(model);

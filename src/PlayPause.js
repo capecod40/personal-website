@@ -1,3 +1,6 @@
+import playUrl from "../assets/play.png";
+import pauseUrl from "../assets/pause.png";
+
 export default class PlayPause {
   static buttons = [];
   static curr = null;
@@ -56,12 +59,12 @@ export default class PlayPause {
     this.playing = true;
     this.videoElement.play();
     this.videoElement.loop = true;
-    this.image.src = "../assets/pause.png";
+    this.image.src = pauseUrl;
   }
 
   pause() {
     this.playing = false;
     this.videoElement.pause();
-    this.image.src = "../assets/play.png";
+    this.image.src = playUrl;
   }
 }
